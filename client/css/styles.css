@@ -213,71 +213,41 @@ body {
     background-color: rgba(82, 82, 82, 1);
 }
 
-/* Triangle styles */
-/* CSS triangles for perfectly aligned directional arrows */
-.triangle {
+/* ASCII Arrow styles - replacing triangle styles */
+.ascii-arrow {
     display: inline-block;
-    width: 0;
-    height: 0;
+    font-size: 14px;
+    line-height: 1;
+    color: #cccccc;
+    font-weight: normal;
+    user-select: none;
+    transition: transform 0.1s ease;
 }
 
-.triangle-left {
-    border-right: 5.04px solid #cccccc;
-    border-top: 4.2px solid transparent;
-    border-bottom: 4.2px solid transparent;
+/* Direction-specific rotations */
+#slideLeft .ascii-arrow {
+    transform: rotate(180deg);
 }
 
-.triangle-right {
-    border-left: 5.04px solid #cccccc;
-    border-top: 4.2px solid transparent;
-    border-bottom: 4.2px solid transparent;
+#slideRight .ascii-arrow {
+    transform: rotate(0deg);
 }
 
-.triangle-up {
-    border-bottom: 5.04px solid #cccccc;
-    border-left: 4.2px solid transparent;
-    border-right: 4.2px solid transparent;
-    transform: translateY(-1px);
+#slideUp .ascii-arrow {
+    transform: rotate(-90deg);
 }
 
-.triangle-down {
-    border-top: 5.04px solid #cccccc;
-    border-left: 4.2px solid transparent;
-    border-right: 4.2px solid transparent;
-    transform: translateY(-1px);
+#slideDown .ascii-arrow {
+    transform: rotate(90deg);
 }
 
-/* Change triangle color on hover and selected state */
-.distance-btn:hover .triangle-right {
-    border-left-color: #ffffff;
+/* Change arrow color on hover and selected state */
+.distance-btn:hover .ascii-arrow {
+    color: #ffffff;
 }
 
-.distance-btn:hover .triangle-left {
-    border-right-color: #ffffff;
-}
-
-.distance-btn:hover .triangle-up {
-    border-bottom-color: #ffffff;
-}
-
-.distance-btn:hover .triangle-down {
-    border-top-color: #ffffff;
-}
-
-.direction-btn.selected .triangle-right {
-    border-left-color: #ffffff;
-}
-
-.direction-btn.selected .triangle-left {
-    border-right-color: #ffffff;
-}
-
-.direction-btn.selected .triangle-up {
-    border-bottom-color: #ffffff;
-}
-
-.direction-btn.selected .triangle-down {
-    border-top-color: #ffffff;
+.direction-btn.selected .ascii-arrow {
+    color: #ffffff;
 }
 
 .debug-container {
