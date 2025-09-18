@@ -195,12 +195,13 @@ function getOrCreateTransitionController(comp, transitionType, params) {
         controller.name = "Slide and fade - Controller";
         
         if (selectedLayerIndices.length > 0) {
-            // Simple approach: move controller to the position right after where the selected layer originally was
-            // If layer 2 was selected, we want controller at position 3
-            // So we moveAfter the layer that is now at position 2 (which was originally layer 1)
-            controller.moveAfter(comp.layers[bottomMostOriginalIndex]);
+            // After adding controller at top, all layers shifted down by 1
+            // So if layer was originally at index 2, it's now at index 3
+            // We want controller below it, so moveAfter the layer at its new position
+            var newSelectedLayerIndex = bottomMostOriginalIndex + 1;
+            controller.moveAfter(comp.layers[newSelectedLayerIndex]);
             
-            DEBUG_JSX.log("Controller positioned at index " + controller.index + " (below original selected layer " + bottomMostOriginalIndex + ")");
+            DEBUG_JSX.log("Controller positioned at index " + controller.index + " (below selected layer which moved from " + bottomMostOriginalIndex + " to " + newSelectedLayerIndex + ")");
         } else {
             DEBUG_JSX.log("Controller created: " + controller.name + " at index " + controller.index + " (no positioning - no selected layers)");
         }
