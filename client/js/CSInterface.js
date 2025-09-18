@@ -1289,4 +1289,3 @@ CSInterface.prototype.getWindowTitle = function()
 {
     return window.__adobe_cep__.invokeSync("getWindowTitle", "");
 };
-

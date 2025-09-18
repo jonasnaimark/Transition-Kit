@@ -42,4 +42,3 @@ echo "2. Restart After Effects"
 echo "3. Look for 'Transition Kit Dev' in Window > Extensions menu"
 echo ""
 echo "💡 No ZXP building needed during development!"
-
