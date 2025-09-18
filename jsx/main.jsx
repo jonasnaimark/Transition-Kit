@@ -174,11 +174,46 @@ function getOrCreateTransitionController(comp, transitionType, params) {
         // No existing controller found, create a new one
         DEBUG_JSX.log("Creating new transition controller");
         
-        // Create empty shape layer (adds at top by default)
+        // FIRST: Get selected layer indices BEFORE creating controller (so indices don't shift)
+        var selectedLayerIndices = [];
+        for (var i = 1; i <= comp.numLayers; i++) {
+            if (comp.layers[i].selected) {
+                selectedLayerIndices.push(i);
+            }
+        }
+        
+        // Find the bottommost selected layer (highest original index)
+        var bottomMostOriginalIndex = 0;
+        for (var s = 0; s < selectedLayerIndices.length; s++) {
+            if (selectedLayerIndices[s] > bottomMostOriginalIndex) {
+                bottomMostOriginalIndex = selectedLayerIndices[s];
+            }
+        }
+        
+        // Create empty shape layer (adds at top by default, shifting all other layers down by 1)
         controller = comp.layers.addShape();
         controller.name = "Slide and fade - Controller";
         
-        DEBUG_JSX.log("Controller created: " + controller.name + " at index " + controller.index);
+        if (selectedLayerIndices.length > 0) {
+            // After controller creation, the bottommost selected layer is now at (bottomMostOriginalIndex + 1)
+            // We want controller to be just below it, so at (bottomMostOriginalIndex + 2)
+            var targetIndex = bottomMostOriginalIndex + 2;
+            
+            // Clamp to valid range
+            if (targetIndex > comp.numLayers) {
+                targetIndex = comp.numLayers; // Will be at bottom
+            }
+            
+            // Move controller to target position
+            controller.moveToEnd(); // Move to bottom first
+            for (var moveCount = comp.numLayers - targetIndex; moveCount > 0; moveCount--) {
+                controller.moveUp();
+            }
+            
+            DEBUG_JSX.log("Controller positioned at index " + controller.index + " (below original selected layer " + bottomMostOriginalIndex + ")");
+        } else {
+            DEBUG_JSX.log("Controller created: " + controller.name + " at index " + controller.index + " (no positioning - no selected layers)");
+        }
         
         return {
             controller: controller,
