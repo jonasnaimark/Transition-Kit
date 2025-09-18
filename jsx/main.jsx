@@ -1341,6 +1341,10 @@ function addExitToLayers(selectedLayers, controller, fadeOutSliderName, comp, tr
             }
         }
         
+        // Add missing transition markers for other transitions this layer might be part of
+        DEBUG_JSX.log("Checking for missing markers from other transitions on newly added layers");
+        addMissingTransitionMarkers(selectedLayers, controller, comp, transitionNumber, fadeOutSliderName);
+        
     } catch(e) {
         DEBUG_JSX.error("Error in addExitToLayers", e.toString());
         throw e;
@@ -1517,9 +1521,121 @@ function addEnterToLayers(selectedLayers, controller, fadeInSliderName, comp, tr
             }
         }
         
+        // Add missing transition markers for other transitions this layer might be part of
+        DEBUG_JSX.log("Checking for missing markers from other transitions on newly added layers");
+        addMissingTransitionMarkers(selectedLayers, controller, comp, transitionNumber, actualSliderName);
+        
     } finally {
         // Always restore original time
         comp.time = originalTime;
+    }
+}
+
+// Add missing transition markers to layers that are already linked to the same slider
+function addMissingTransitionMarkers(layers, controller, comp, currentTransitionNumber, currentSliderName) {
+    try {
+        DEBUG_JSX.log("Scanning for missing transition markers on layers already linked to slider: " + currentSliderName);
+        
+        // Find all other layers in the comp that are linked to the same slider
+        var allLayersLinkedToSlider = findAllLayersLinkedToSlider(comp, controller, currentSliderName);
+        DEBUG_JSX.log("Found " + allLayersLinkedToSlider.length + " total layers linked to " + currentSliderName);
+        
+        // Get all transitions from the controller
+        var position = controller.transform.position;
+        var allTransitions = findAllTransitions(position);
+        DEBUG_JSX.log("Found " + allTransitions.length + " transitions on timeline");
+        
+        // For each layer that's already linked to this slider
+        for (var layerIdx = 0; layerIdx < allLayersLinkedToSlider.length; layerIdx++) {
+            var linkedLayer = allLayersLinkedToSlider[layerIdx];
+            
+            // Find what transitions this slider has keyframes in (besides the current one)
+            var currentSlider = controller.effect(currentSliderName);
+            if (!currentSlider) continue;
+            
+            var sliderProperty = currentSlider.property(1);
+            
+            // Check each transition to see if this slider has keyframes there
+            for (var transIdx = 0; transIdx < allTransitions.length; transIdx++) {
+                var transition = allTransitions[transIdx];
+                
+                if (transition.transitionNumber === currentTransitionNumber) {
+                    DEBUG_JSX.log("Skipping current transition T" + currentTransitionNumber);
+                    continue; // Skip the current transition
+                }
+                
+                // Check if the slider has keyframes in this transition timeframe
+                var hasKeyframesInTransition = false;
+                var sliderType = null;
+                
+                for (var k = 1; k <= sliderProperty.numKeys; k++) {
+                    var keyTime = sliderProperty.keyTime(k);
+                    var tolerance = 0.05; // 50ms tolerance
+                    
+                    if (keyTime >= (transition.startTime - tolerance) && keyTime <= (transition.endTime + tolerance)) {
+                        hasKeyframesInTransition = true;
+                        
+                        // Determine if this is fade-in or fade-out based on keyframe color
+                        var keyColor = getKeyframeColor(sliderProperty, k);
+                        if (keyColor === 9 || keyColor === 8) { // Green or Blue = fade-out
+                            sliderType = "fadeOut";
+                        } else if (keyColor === 10) { // Purple = fade-in
+                            sliderType = "fadeIn";
+                        }
+                        break;
+                    }
+                }
+                
+                if (hasKeyframesInTransition && sliderType) {
+                    DEBUG_JSX.log("Slider " + currentSliderName + " has " + sliderType + " keyframes in transition T" + transition.transitionNumber);
+                    
+                    // Get the transition direction
+                    var direction = getTransitionDirection(controller, transition.startTime, transition.endTime);
+                    
+                    // Add marker to this layer for this other transition
+                    addTransitionMarker(linkedLayer, sliderType, direction, transition, currentSliderName);
+                }
+            }
+        }
+        
+    } catch (e) {
+        DEBUG_JSX.error("Error in addMissingTransitionMarkers", e.toString());
+    }
+}
+
+
+// Helper function to add a transition marker to a layer
+function addTransitionMarker(layer, markerType, direction, transition, sliderName) {
+    try {
+        // Create direction arrow
+        var directionArrow = "";
+        switch(direction) {
+            case "left": directionArrow = "← "; break;
+            case "right": directionArrow = "→ "; break;
+            case "up": directionArrow = "↑ "; break;
+            case "down": directionArrow = "↓ "; break;
+            default: directionArrow = "← "; break;
+        }
+        
+        // Create marker text
+        var markerText = directionArrow + (markerType === "fadeIn" ? "Fade In" : "Fade Out");
+        var marker = new MarkerValue(markerText);
+        
+        // Calculate marker time based on transition type
+        var markerTime;
+        if (markerType === "fadeOut") {
+            // Fade out starts at transition start
+            markerTime = transition.startTime;
+        } else {
+            // Fade in typically starts after fade out delay (150ms is common)
+            markerTime = transition.startTime + 0.15; // 150ms delay estimate
+        }
+        
+        layer.marker.setValueAtTime(markerTime, marker);
+        DEBUG_JSX.log("Added missing " + markerType + " marker (T" + transition.transitionNumber + ") to " + layer.name + " at " + DEBUG_JSX.formatTime(markerTime) + " for slider " + sliderName);
+        
+    } catch (e) {
+        DEBUG_JSX.error("Error adding transition marker", e.toString());
     }
 }
 

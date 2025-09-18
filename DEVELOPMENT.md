@@ -158,6 +158,7 @@ try {
 }
 ```
 
+
 ### Adding New Features
 
 #### Pattern for New Interactive Sections
@@ -293,6 +294,29 @@ cp CSXS/manifest.xml CSXS/manifest.xml.dev-backup
 cd ~/Documents/transition-kit-plugin
 ./dev-sync.sh
 # Then fix manifest.xml if needed (see Step 1 above)
+```
+
+### ⚠️ CRITICAL: GitHub Push Policy
+
+**NEVER push to GitHub automatically!**
+
+- **ALWAYS ask the user first** before pushing any commits to GitHub
+- **Only push when explicitly requested** by the user
+- **Local commits are fine** - but never `git push` without permission
+- **This prevents accidental pushes** and gives user control over what goes to GitHub
+
+**Example of correct workflow:**
+```bash
+# ✅ ALWAYS OK - Local commits
+git add .
+git commit -m "Your changes"
+
+# ❌ NEVER DO - Automatic push
+git push origin main
+
+# ✅ ONLY WHEN USER ASKS - Manual push after user request
+# User: "push this to github"
+git push origin main
 ```
 
 ## Debugging
