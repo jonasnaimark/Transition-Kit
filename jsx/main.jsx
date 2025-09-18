@@ -195,9 +195,9 @@ function getOrCreateTransitionController(comp, transitionType, params) {
         controller.name = "Slide and fade - Controller";
         
         if (selectedLayerIndices.length > 0) {
-            // After controller creation, the bottommost selected layer is now at (bottomMostOriginalIndex + 1)
-            // We want controller to be just below it, so at (bottomMostOriginalIndex + 2)
-            var targetIndex = bottomMostOriginalIndex + 2;
+            // We want controller to be just below the original selected layer position
+            // So if layer 2 was selected, controller should go to position 3
+            var targetIndex = bottomMostOriginalIndex + 1;
             
             // Clamp to valid range
             if (targetIndex > comp.numLayers) {
