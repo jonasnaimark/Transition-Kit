@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Transition Kit Panel - DEV TEST</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // Debug panel function - defined in head to be immediately available
+        window.addDebugPanel = function() {
+            if (document.getElementById('debug-panel')) return; // Already exists
+            
+            var debugPanel = document.createElement('div');
+            debugPanel.id = 'debug-panel';
+            debugPanel.style.cssText = 'position: fixed; top: 10px; right: 10px; width: 280px; background: #1a1a1a; border: 2px solid #f39c12; border-radius: 6px; padding: 8px; font-size: 10px; color: #ccc; z-index: 1000; max-height: 150px; overflow-y: auto; overflow-x: hidden; user-select: text; -webkit-user-select: text; -moz-user-select: text; font-family: monospace;';
+            
+            debugPanel.innerHTML = '<div style="font-weight: bold; margin-bottom: 5px; user-select: none; color: #f39c12;">🎬 TransitionKit Debug</div><div style="font-size: 8px; color: #888; margin-bottom: 5px; user-select: none;">Showing ExtendScript debug output</div><div id="debug-log" style="user-select: text; -webkit-user-select: text; -moz-user-select: text; font-family: monospace; font-size: 9px; line-height: 1.2;"></div><div style="margin-top: 6px; user-select: none;"><button onclick="document.getElementById(\'debug-log\').innerHTML = \'\'" style="background: #444; border: 1px solid #666; color: #ccc; padding: 2px 6px; border-radius: 3px; font-size: 8px; margin-right: 4px; cursor: pointer;">Clear</button><button onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById(\'debug-log\').innerText)" style="background: #444; border: 1px solid #666; color: #ccc; padding: 2px 6px; border-radius: 3px; font-size: 8px; margin-right: 4px; cursor: pointer;">Copy</button><button onclick="document.getElementById(\'debug-panel\').remove()" style="background: #666; border: 1px solid #888; color: white; padding: 2px 6px; border-radius: 3px; font-size: 8px; cursor: pointer;">Close</button></div>';
+            
+            document.body.appendChild(debugPanel);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Transition Type Section -->
+        <div class="section-container">
+            <section class="section">
+                <div class="control-row">
+                    <select id="transitionType" class="dropdown">
+                        <option value="slide-fade">Slide and fade</option>
+                    </select>
+                </div>
+                <div class="control-row">
+                    <button id="addExit" class="main-button">Add Fade Out</button>
+                    <button id="addEnter" class="main-button action-button">Add Fade In</button>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Fade Section -->
+        <div class="section-container">
+            <section class="section">
+                <div class="control-row">
+                    <div class="fade-group">
+                        <div class="quarter-width-container">
+                            <label class="param-label">Fade Out</label>
+                            <div class="input-with-unit">
+                                <input type="text" id="fadeOutDelay" class="numeric-input fade-out-input" value="0">
+                                <span class="unit-label">ms</span>
+                            </div>
+                        </div>
+                        <div class="quarter-width-container">
+                            <label class="param-label"></label>
+                            <div class="input-with-unit">
+                                <input type="text" id="fadeOutDuration" class="numeric-input fade-out-input" value="150">
+                                <span class="unit-label">ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fade-group">
+                        <div class="quarter-width-container">
+                            <label class="param-label">Fade In</label>
+                            <div class="input-with-unit">
+                                <input type="text" id="fadeInDelay" class="numeric-input fade-in-input" value="150">
+                                <span class="unit-label">ms</span>
+                            </div>
+                        </div>
+                        <div class="quarter-width-container">
+                            <label class="param-label"></label>
+                            <div class="input-with-unit">
+                                <input type="text" id="fadeInDuration" class="numeric-input fade-in-input" value="250">
+                                <span class="unit-label">ms</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Slide Section -->
+        <div class="section-container">
+            <section class="section">
+                <label class="param-label">Slide</label>
+                <div class="gradient-border-container">
+                    <div class="control-row">
+                        <div class="half-width-container">
+                            <div class="input-with-unit">
+                                <input type="text" id="slideDistance" class="numeric-input slide-input" value="200">
+                                <span class="unit-label">px</span>
+                            </div>
+                        </div>
+                        <div class="direction-controls">
+                            <button id="slideLeft" class="distance-btn direction-btn selected"><span class="ascii-arrow">➔</span></button>
+                            <button id="slideRight" class="distance-btn direction-btn"><span class="ascii-arrow">➔</span></button>
+                            <button id="slideUp" class="distance-btn direction-btn"><span class="ascii-arrow">➔</span></button>
+                            <button id="slideDown" class="distance-btn direction-btn"><span class="ascii-arrow">➔</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="debug-container">
+                    <button onclick="addDebugPanel();" class="debug-btn">🐛 Debug</button>
+                </div>
+            </section>
+        </div>
+        
+    </div>
+    
+    <!-- Load Adobe's CEP JavaScript library -->
+    <script src="js/CSInterface.js"></script>
+    <!-- Load our custom JavaScript -->
+    <script src="js/main.js"></script>
+    
+</body>
+</html>

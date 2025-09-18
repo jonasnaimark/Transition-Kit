@@ -1,0 +1,358 @@
+/* TransitionKit Panel Styles */
+
+.container {
+    margin: 0;
+    padding: 12px;
+    font-family: "Adobe Clean", "Source Sans Pro", sans-serif;
+    background-color: #393939;
+    color: #CCCCCC;
+    font-size: 11px;
+}
+
+/* Section styling */
+.section-container {
+    margin-bottom: 15px;
+}
+
+.section {
+    padding: 8px 10px;
+    background-color: #494949;
+    border: 1px solid #555555;
+    border-radius: 3px;
+}
+
+.control-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    align-items: stretch;
+}
+
+.control-row:last-child {
+    margin-bottom: 0;
+}
+
+/* Dropdown styling */
+.dropdown {
+    flex: 1;
+    padding: 5px 8px;
+    background-color: #2a2a2a;
+    border: 1px solid #555555;
+    border-radius: 2px;
+    color: #CCCCCC;
+    font-size: 11px;
+    outline: none;
+}
+
+.dropdown:focus {
+    border-color: #0078d4;
+}
+
+/* Button styling */
+.main-button {
+    flex: 1;
+    padding: 6px 12px;
+    background-color: #4a4a4a;
+    border: 1px solid #666666;
+    border-radius: 2px;
+    color: #CCCCCC;
+    font-size: 11px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.15s ease;
+}
+
+.main-button:hover {
+    background-color: #555555;
+}
+
+.main-button:active {
+    background-color: #3a3a3a;
+}
+
+.action-button {
+    background-color: #0078d4;
+    border-color: #106ebe;
+    color: white;
+}
+
+.action-button:hover {
+    background-color: #106ebe;
+}
+
+.action-button:active {
+    background-color: #005a9e;
+}
+
+/* Fade controls */
+.fade-group {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+}
+
+.quarter-width-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.param-label {
+    font-size: 9px;
+    color: #AAAAAA;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.input-with-unit {
+    display: flex;
+    align-items: stretch;
+}
+
+.numeric-input {
+    flex: 1;
+    padding: 4px 6px;
+    background-color: #2a2a2a;
+    border: 1px solid #555555;
+    border-radius: 2px 0 0 2px;
+    color: #CCCCCC;
+    font-size: 11px;
+    outline: none;
+    text-align: center;
+    min-width: 0;
+}
+
+.numeric-input:focus {
+    border-color: #0078d4;
+}
+
+.unit-label {
+    padding: 4px 6px;
+    background-color: #3a3a3a;
+    border: 1px solid #555555;
+    border-left: none;
+    border-radius: 0 2px 2px 0;
+    color: #AAAAAA;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+/* Distance controls */
+.distance-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.distance-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.distance-input-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.distance-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: #4a4a4a;
+    border: 1px solid #666666;
+    border-radius: 2px;
+    color: #CCCCCC;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
+    font-size: 12px;
+}
+
+.distance-btn:hover {
+    background-color: #555555;
+}
+
+.distance-btn:active {
+    background-color: #3a3a3a;
+}
+
+.direction-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.direction-btn.selected {
+    background-color: #525252;
+    border-color: #777777;
+}
+
+.direction-btn.selected:hover {
+    background-color: rgba(82, 82, 82, 1);
+}
+
+/* ASCII Arrow styles - replacing triangle styles */
+.ascii-arrow {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    color: #cccccc;
+    font-weight: normal;
+    user-select: none;
+    transition: transform 0.1s ease;
+}
+
+/* Direction-specific rotations */
+#slideLeft .ascii-arrow {
+    transform: rotate(180deg);
+}
+
+#slideRight .ascii-arrow {
+    transform: rotate(0deg);
+}
+
+#slideUp .ascii-arrow {
+    transform: rotate(-90deg);
+}
+
+#slideDown .ascii-arrow {
+    transform: rotate(90deg);
+}
+
+/* Change arrow color on hover and selected state */
+.distance-btn:hover .ascii-arrow {
+    color: #ffffff;
+}
+
+.direction-btn.selected .ascii-arrow {
+    color: #ffffff;
+}
+
+.debug-container {
+    margin-top: 8px;
+    text-align: left;
+}
+
+.debug-btn {
+    background: #444;
+    border: 1px solid #666;
+    color: #ccc;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    cursor: pointer;
+    outline: none;
+}
+
+.debug-btn:hover {
+    background: #555;
+    border-color: #777;
+}
+
+/* Input validation */
+.numeric-input.invalid {
+    border-color: #e74c3c;
+    background-color: #4a2a2a;
+}
+
+.fade-out-input {
+    background-color: #2a2a3a;
+}
+
+.fade-in-input {
+    background-color: #2a3a2a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 300px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .fade-group {
+        flex-direction: column;
+    }
+    
+    .distance-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .direction-controls {
+        justify-content: center;
+    }
+}
+
+/* Panel specific styling */
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Focus indicators for accessibility */
+.main-button:focus,
+.distance-btn:focus,
+.dropdown:focus,
+.numeric-input:focus {
+    box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.3);
+}
+
+/* Disabled states */
+.main-button:disabled,
+.distance-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.main-button:disabled:hover,
+.distance-btn:disabled:hover {
+    background-color: #4a4a4a;
+}
+
+/* Animation for smooth interactions */
+.numeric-input,
+.dropdown {
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+/* Tooltip styling (if needed for future use) */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 2px;
+}
+
+[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #1a1a1a;
+    z-index: 1000;
+}
