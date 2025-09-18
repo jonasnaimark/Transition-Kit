@@ -204,10 +204,11 @@ function getOrCreateTransitionController(comp, transitionType, params) {
                 targetIndex = comp.numLayers; // Will be at bottom
             }
             
-            // Move controller to target position
-            controller.moveToEnd(); // Move to bottom first
-            for (var moveCount = comp.numLayers - targetIndex; moveCount > 0; moveCount--) {
-                controller.moveUp();
+            // Move controller to target position using correct AE methods
+            if (targetIndex <= comp.numLayers) {
+                controller.moveBefore(comp.layers[targetIndex]);
+            } else {
+                controller.moveAfter(comp.layers[comp.numLayers]);
             }
             
             DEBUG_JSX.log("Controller positioned at index " + controller.index + " (below original selected layer " + bottomMostOriginalIndex + ")");
